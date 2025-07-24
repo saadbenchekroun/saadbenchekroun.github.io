@@ -38,7 +38,7 @@
             position: relative;
             overflow: hidden;
         }
-         
+        
         .header::before {
             content: '';
             position: absolute;
@@ -72,6 +72,24 @@
         
         .form-content {
             padding: 40px 30px;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
         }
         
         .service-section {
@@ -255,6 +273,11 @@
                 padding: 30px 20px;
             }
             
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
             .service-section {
                 padding: 20px;
             }
@@ -270,148 +293,156 @@
         
         <div class="form-content">
             <form id="clientForm">
-                <!-- Client Info -->
-                <div class="service-section">
-                    <h2 class="section-title">👤 Informations Client</h2>
-                    <div class="form-group">
-                        <label for="clientName">Nom de l'entreprise / Client <span class="required">*</span></label>
-                        <input type="text" id="clientName" name="clientName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="contactPerson">Personne de contact</label>
-                        <input type="text" id="contactPerson" name="contactPerson">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email">
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Téléphone</label>
-                        <input type="tel" id="phone" name="phone">
-                    </div>
-                </div>
+                <div class="form-grid">
+                    <!-- Left Column -->
+                    <div class="left-column">
+                        <!-- Client Info -->
+                        <div class="service-section">
+                            <h2 class="section-title">👤 Informations Client</h2>
+                            <div class="form-group">
+                                <label for="clientName">Nom de l'entreprise / Client <span class="required">*</span></label>
+                                <input type="text" id="clientName" name="clientName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contactPerson">Personne de contact</label>
+                                <input type="text" id="contactPerson" name="contactPerson">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Téléphone</label>
+                                <input type="tel" id="phone" name="phone">
+                            </div>
+                        </div>
 
-                <!-- Service Selection -->
-                <div class="service-section">
-                    <h2 class="section-title">🎯 Services Demandés</h2>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="automation" name="services" value="automation">
-                        <label for="automation">🛠️ Automatisation</label>
+                        <!-- Additional Notes -->
+                        <div class="service-section">
+                            <h2 class="section-title">📝 Notes Supplémentaires</h2>
+                            <div class="form-group">
+                                <label for="budget">Budget approximatif</label>
+                                <input type="text" id="budget" name="budget" placeholder="Budget alloué au projet">
+                            </div>
+                            <div class="form-group">
+                                <label for="timeline">Délai souhaité</label>
+                                <input type="text" id="timeline" name="timeline" placeholder="Quand souhaitez-vous que le projet soit terminé ?">
+                            </div>
+                            <div class="form-group">
+                                <label for="additionalNotes">Notes et commentaires supplémentaires</label>
+                                <textarea id="additionalNotes" name="additionalNotes" placeholder="Toute information supplémentaire utile..."></textarea>
+                            </div>
+                        </div>
                     </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="ai" name="services" value="ai">
-                        <label for="ai">🤖 Intelligence Artificielle</label>
-                    </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="website" name="services" value="website">
-                        <label for="website">🌐 Création de Site Web</label>
-                    </div>
-                </div>
 
-                <!-- Automation Section -->
-                <div class="service-section automation" id="automationSection" style="display: none;">
-                    <h2 class="section-title">🛠️ AUTOMATISATION</h2>
-                    <div class="form-group">
-                        <label for="manualProcesses">Liste des processus manuels répétitifs à automatiser</label>
-                        <textarea id="manualProcesses" name="manualProcesses" placeholder="Ex: prise de RDV, génération de devis, envoi d'emails..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="existingTools">Outils existants (CRM, Google Sheets, logiciel interne, site web, etc.)</label>
-                        <textarea id="existingTools" name="existingTools" placeholder="Listez tous les outils actuellement utilisés..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="apiAccess">Identifiants/API des plateformes utilisées</label>
-                        <textarea id="apiAccess" name="apiAccess" placeholder="HubSpot, Zoho, Google, etc. (à fournir en privé)"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="dataExamples">Données types / Exemples</label>
-                        <textarea id="dataExamples" name="dataExamples" placeholder="Exemples d'emails, de clients, de commandes..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="automationProblems">Problèmes concrets rencontrés et objectifs souhaités</label>
-                        <textarea id="automationProblems" name="automationProblems" placeholder="Ex: on perd du temps à répondre aux mêmes emails..."></textarea>
-                    </div>
-                </div>
+                    <!-- Right Column -->
+                    <div class="right-column">
+                        <!-- Service Selection -->
+                        <div class="service-section">
+                            <h2 class="section-title">🎯 Services Demandés</h2>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="automation" name="services" value="automation">
+                                <label for="automation">🛠️ Automatisation</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="ai" name="services" value="ai">
+                                <label for="ai">🤖 Intelligence Artificielle</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="website" name="services" value="website">
+                                <label for="website">🌐 Création de Site Web</label>
+                            </div>
+                        </div>
 
-                <!-- AI Section -->
-                <div class="service-section ai" id="aiSection" style="display: none;">
-                    <h2 class="section-title">🤖 INTELLIGENCE ARTIFICIELLE</h2>
-                    <div class="form-group">
-                        <label for="aiObjective">Objectif précis</label>
-                        <textarea id="aiObjective" name="aiObjective" placeholder="Ex: résumé automatique, chatbot RH, détection d'erreurs..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="trainingData">Données d'entraînement disponibles</label>
-                        <textarea id="trainingData" name="trainingData" placeholder="Fichiers PDF, documents internes, base client, logs, images..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="internalToolsAccess">Accès aux outils internes (si intégration nécessaire)</label>
-                        <textarea id="internalToolsAccess" name="internalToolsAccess" placeholder="Notion, CRM, drive partagé..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="useCases">Cas concrets d'usage souhaité</label>
-                        <textarea id="useCases" name="useCases" placeholder="Ex: je veux un assistant qui lit mes contrats PDF..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="dataRights">Droit d'utilisation des données</label>
-                        <textarea id="dataRights" name="dataRights" placeholder="Précisez les droits sur les données, surtout si clients finaux..."></textarea>
-                    </div>
-                </div>
+                        <!-- Automation Section -->
+                        <div class="service-section automation" id="automationSection" style="display: none;">
+                            <h2 class="section-title">🛠️ AUTOMATISATION</h2>
+                            <div class="form-group">
+                                <label for="manualProcesses">Liste des processus manuels répétitifs à automatiser</label>
+                                <textarea id="manualProcesses" name="manualProcesses" placeholder="Ex: prise de RDV, génération de devis, envoi d'emails..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="existingTools">Outils existants (CRM, Google Sheets, logiciel interne, site web, etc.)</label>
+                                <textarea id="existingTools" name="existingTools" placeholder="Listez tous les outils actuellement utilisés..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="apiAccess">Identifiants/API des plateformes utilisées</label>
+                                <textarea id="apiAccess" name="apiAccess" placeholder="HubSpot, Zoho, Google, etc. (à fournir en privé)"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="dataExamples">Données types / Exemples</label>
+                                <textarea id="dataExamples" name="dataExamples" placeholder="Exemples d'emails, de clients, de commandes..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="automationProblems">Problèmes concrets rencontrés et objectifs souhaités</label>
+                                <textarea id="automationProblems" name="automationProblems" placeholder="Ex: on perd du temps à répondre aux mêmes emails..."></textarea>
+                            </div>
+                        </div>
 
-                <!-- Website Section -->
-                <div class="service-section website" id="websiteSection" style="display: none;">
-                    <h2 class="section-title">🌐 CRÉATION DE SITE WEB</h2>
-                    <div class="form-group">
-                        <label for="websiteObjective">Objectif du site</label>
-                        <select id="websiteObjective" name="websiteObjective">
-                            <option value="">Sélectionnez l'objectif principal</option>
-                            <option value="presentation">Site de présentation</option>
-                            <option value="vente">Site de vente</option>
-                            <option value="leads">Génération de leads</option>
-                            <option value="reservation">Site de réservation</option>
-                            <option value="autre">Autre</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="brandingElements">Logo, charte graphique, contenus textuels</label>
-                        <textarea id="brandingElements" name="brandingElements" placeholder="Décrivez ce que vous avez déjà ou ce qui doit être créé..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="inspirationSites">Exemples de sites inspirants ou concurrentiels</label>
-                        <textarea id="inspirationSites" name="inspirationSites" placeholder="URLs de sites que vous aimez..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="specificFeatures">Fonctionnalités spécifiques souhaitées</label>
-                        <textarea id="specificFeatures" name="specificFeatures" placeholder="Blog, carte interactive, réservation, paiement, chatbot..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="domainHosting">Nom de domaine et hébergement</label>
-                        <textarea id="domainHosting" name="domainHosting" placeholder="Avez-vous déjà un nom de domaine ? Hébergement actuel ?"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="productsServices">Produits ou services à mettre en avant</label>
-                        <textarea id="productsServices" name="productsServices" placeholder="Listez les éléments principaux à présenter..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="thirdPartyAccounts">Comptes tiers à connecter</label>
-                        <textarea id="thirdPartyAccounts" name="thirdPartyAccounts" placeholder="CRM, email, réseaux sociaux..."></textarea>
-                    </div>
-                </div>
+                        <!-- AI Section -->
+                        <div class="service-section ai" id="aiSection" style="display: none;">
+                            <h2 class="section-title">🤖 INTELLIGENCE ARTIFICIELLE</h2>
+                            <div class="form-group">
+                                <label for="aiObjective">Objectif précis</label>
+                                <textarea id="aiObjective" name="aiObjective" placeholder="Ex: résumé automatique, chatbot RH, détection d'erreurs..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="trainingData">Données d'entraînement disponibles</label>
+                                <textarea id="trainingData" name="trainingData" placeholder="Fichiers PDF, documents internes, base client, logs, images..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="internalToolsAccess">Accès aux outils internes (si intégration nécessaire)</label>
+                                <textarea id="internalToolsAccess" name="internalToolsAccess" placeholder="Notion, CRM, drive partagé..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="useCases">Cas concrets d'usage souhaité</label>
+                                <textarea id="useCases" name="useCases" placeholder="Ex: je veux un assistant qui lit mes contrats PDF..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="dataRights">Droit d'utilisation des données</label>
+                                <textarea id="dataRights" name="dataRights" placeholder="Précisez les droits sur les données, surtout si clients finaux..."></textarea>
+                            </div>
+                        </div>
 
-                <!-- Additional Notes -->
-                <div class="service-section">
-                    <h2 class="section-title">📝 Notes Supplémentaires</h2>
-                    <div class="form-group">
-                        <label for="budget">Budget approximatif</label>
-                        <input type="text" id="budget" name="budget" placeholder="Budget alloué au projet">
-                    </div>
-                    <div class="form-group">
-                        <label for="timeline">Délai souhaité</label>
-                        <input type="text" id="timeline" name="timeline" placeholder="Quand souhaitez-vous que le projet soit terminé ?">
-                    </div>
-                    <div class="form-group">
-                        <label for="additionalNotes">Notes et commentaires supplémentaires</label>
-                        <textarea id="additionalNotes" name="additionalNotes" placeholder="Toute information supplémentaire utile..."></textarea>
+                        <!-- Website Section -->
+                        <div class="service-section website" id="websiteSection" style="display: none;">
+                            <h2 class="section-title">🌐 CRÉATION DE SITE WEB</h2>
+                            <div class="form-group">
+                                <label for="websiteObjective">Objectif du site</label>
+                                <select id="websiteObjective" name="websiteObjective">
+                                    <option value="">Sélectionnez l'objectif principal</option>
+                                    <option value="presentation">Site de présentation</option>
+                                    <option value="vente">Site de vente</option>
+                                    <option value="leads">Génération de leads</option>
+                                    <option value="reservation">Site de réservation</option>
+                                    <option value="autre">Autre</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="brandingElements">Logo, charte graphique, contenus textuels</label>
+                                <textarea id="brandingElements" name="brandingElements" placeholder="Décrivez ce que vous avez déjà ou ce qui doit être créé..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="inspirationSites">Exemples de sites inspirants ou concurrentiels</label>
+                                <textarea id="inspirationSites" name="inspirationSites" placeholder="URLs de sites que vous aimez..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="specificFeatures">Fonctionnalités spécifiques souhaitées</label>
+                                <textarea id="specificFeatures" name="specificFeatures" placeholder="Blog, carte interactive, réservation, paiement, chatbot..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="domainHosting">Nom de domaine et hébergement</label>
+                                <textarea id="domainHosting" name="domainHosting" placeholder="Avez-vous déjà un nom de domaine ? Hébergement actuel ?"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="productsServices">Produits ou services à mettre en avant</label>
+                                <textarea id="productsServices" name="productsServices" placeholder="Listez les éléments principaux à présenter..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="thirdPartyAccounts">Comptes tiers à connecter</label>
+                                <textarea id="thirdPartyAccounts" name="thirdPartyAccounts" placeholder="CRM, email, réseaux sociaux..."></textarea>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -447,101 +478,352 @@
         });
 
         function generateDocument() {
-            const formData = new FormData(document.getElementById('clientForm'));
-            const data = {};
-            
-            // Convert FormData to object
-            for (let [key, value] of formData.entries()) {
-                if (data[key]) {
-                    if (Array.isArray(data[key])) {
-                        data[key].push(value);
-                    } else {
-                        data[key] = [data[key], value];
-                    }
-                } else {
-                    data[key] = value;
+            try {
+                console.log("Starting document generation...");
+                
+                // Check if libraries are loaded
+                if (typeof docx === 'undefined') {
+                    alert("Erreur: Bibliothèque DOCX non chargée. Veuillez actualiser la page.");
+                    return;
                 }
-            }
+                
+                if (typeof saveAs === 'undefined') {
+                    alert("Erreur: Bibliothèque FileSaver non chargée. Veuillez actualiser la page.");
+                    return;
+                }
 
-            // Get selected services
-            const selectedServices = [];
-            document.querySelectorAll('input[name="services"]:checked').forEach(checkbox => {
-                selectedServices.push(checkbox.value);
-            });
+                const formData = new FormData(document.getElementById('clientForm'));
+                const data = {};
+                
+                // Convert FormData to object
+                for (let [key, value] of formData.entries()) {
+                    if (data[key]) {
+                        if (Array.isArray(data[key])) {
+                            data[key].push(value);
+                        } else {
+                            data[key] = [data[key], value];
+                        }
+                    } else {
+                        data[key] = value;
+                    }
+                }
 
-            // Generate document content
-            const doc = new docx.Document({
-                sections: [{
-                    properties: {},
-                    children: [
+                // Get selected services
+                const selectedServices = [];
+                document.querySelectorAll('input[name="services"]:checked').forEach(checkbox => {
+                    selectedServices.push(checkbox.value);
+                });
+
+                console.log("Form data collected:", data);
+                console.log("Selected services:", selectedServices);
+
+                // Create document content
+                const children = [
+                    new docx.Paragraph({
+                        children: [
+                            new docx.TextRun({
+                                text: "BRIEF CLIENT - DOCUMENT DE TRAVAIL",
+                                bold: true,
+                                size: 32
+                            })
+                        ],
+                        alignment: docx.AlignmentType.CENTER,
+                        spacing: { after: 400 }
+                    }),
+                    
+                    new docx.Paragraph({
+                        children: [
+                            new docx.TextRun({
+                                text: `Date de création: ${new Date().toLocaleDateString('fr-FR')}`,
+                                italics: true
+                            })
+                        ],
+                        alignment: docx.AlignmentType.CENTER,
+                        spacing: { after: 600 }
+                    }),
+
+                    // Client Information
+                    new docx.Paragraph({
+                        children: [
+                            new docx.TextRun({
+                                text: "👤 INFORMATIONS CLIENT",
+                                bold: true,
+                                size: 28
+                            })
+                        ],
+                        spacing: { before: 600, after: 300 }
+                    }),
+                    
+                    new docx.Paragraph({
+                        children: [
+                            new docx.TextRun({ text: "Nom de l'entreprise: ", bold: true }),
+                            new docx.TextRun({ text: data.clientName || "Non renseigné" })
+                        ],
+                        spacing: { after: 200 }
+                    }),
+                    
+                    new docx.Paragraph({
+                        children: [
+                            new docx.TextRun({ text: "Personne de contact: ", bold: true }),
+                            new docx.TextRun({ text: data.contactPerson || "Non renseigné" })
+                        ],
+                        spacing: { after: 200 }
+                    }),
+                    
+                    new docx.Paragraph({
+                        children: [
+                            new docx.TextRun({ text: "Email: ", bold: true }),
+                            new docx.TextRun({ text: data.email || "Non renseigné" })
+                        ],
+                        spacing: { after: 200 }
+                    }),
+                    
+                    new docx.Paragraph({
+                        children: [
+                            new docx.TextRun({ text: "Téléphone: ", bold: true }),
+                            new docx.TextRun({ text: data.phone || "Non renseigné" })
+                        ],
+                        spacing: { after: 400 }
+                    }),
+
+                    // Selected Services
+                    new docx.Paragraph({
+                        children: [
+                            new docx.TextRun({
+                                text: "🎯 SERVICES DEMANDÉS",
+                                bold: true,
+                                size: 28
+                            })
+                        ],
+                        spacing: { before: 600, after: 300 }
+                    }),
+                    
+                    new docx.Paragraph({
+                        children: [
+                            new docx.TextRun({
+                                text: selectedServices.length > 0 ? selectedServices.map(s => {
+                                    const serviceNames = {
+                                        automation: "🛠️ Automatisation",
+                                        ai: "🤖 Intelligence Artificielle", 
+                                        website: "🌐 Création de Site Web"
+                                    };
+                                    return serviceNames[s];
+                                }).join(", ") : "Aucun service sélectionné"
+                            })
+                        ],
+                        spacing: { after: 400 }
+                    })
+                ];
+
+                // Add service-specific sections
+                if (selectedServices.includes('automation')) {
+                    children.push(
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "🛠️ AUTOMATISATION - DÉTAILS", bold: true, size: 24 })],
+                            spacing: { before: 600, after: 300 }
+                        }),
                         new docx.Paragraph({
                             children: [
-                                new docx.TextRun({
-                                    text: "BRIEF CLIENT - DOCUMENT DE TRAVAIL",
-                                    bold: true,
-                                    size: 32,
-                                    color: "4F46E5"
-                                })
+                                new docx.TextRun({ text: "Processus manuels à automatiser: ", bold: true }),
+                                new docx.TextRun({ text: data.manualProcesses || "Non renseigné" })
                             ],
-                            alignment: docx.AlignmentType.CENTER,
+                            spacing: { after: 200 }
+                        }),
+                        new docx.Paragraph({
+                            children: [
+                                new docx.TextRun({ text: "Outils existants: ", bold: true }),
+                                new docx.TextRun({ text: data.existingTools || "Non renseigné" })
+                            ],
+                            spacing: { after: 200 }
+                        }),
+                        new docx.Paragraph({
+                            children: [
+                                new docx.TextRun({ text: "Identifiants/API: ", bold: true }),
+                                new docx.TextRun({ text: data.apiAccess || "Non renseigné" })
+                            ],
+                            spacing: { after: 200 }
+                        }),
+                        new docx.Paragraph({
+                            children: [
+                                new docx.TextRun({ text: "Données types: ", bold: true }),
+                                new docx.TextRun({ text: data.dataExamples || "Non renseigné" })
+                            ],
+                            spacing: { after: 200 }
+                        }),
+                        new docx.Paragraph({
+                            children: [
+                                new docx.TextRun({ text: "Problèmes et objectifs: ", bold: true }),
+                                new docx.TextRun({ text: data.automationProblems || "Non renseigné" })
+                            ],
                             spacing: { after: 400 }
+                        })
+                    );
+                }
+
+                if (selectedServices.includes('ai')) {
+                    children.push(
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "🤖 INTELLIGENCE ARTIFICIELLE - DÉTAILS", bold: true, size: 24 })],
+                            spacing: { before: 600, after: 300 }
                         }),
-                        
                         new docx.Paragraph({
                             children: [
-                                new docx.TextRun({
-                                    text: `Date de création: ${new Date().toLocaleDateString('fr-FR')}`,
-                                    italics: true
-                                })
+                                new docx.TextRun({ text: "Objectif précis: ", bold: true }),
+                                new docx.TextRun({ text: data.aiObjective || "Non renseigné" })
                             ],
-                            alignment: docx.AlignmentType.CENTER,
-                            spacing: { after: 600 }
+                            spacing: { after: 200 }
                         }),
-
-                        // Client Information
-                        createSectionHeader("👤 INFORMATIONS CLIENT"),
-                        createInfoParagraph("Nom de l'entreprise", data.clientName || "Non renseigné"),
-                        createInfoParagraph("Personne de contact", data.contactPerson || "Non renseigné"),
-                        createInfoParagraph("Email", data.email || "Non renseigné"),
-                        createInfoParagraph("Téléphone", data.phone || "Non renseigné"),
-
-                        // Selected Services
-                        createSectionHeader("🎯 SERVICES DEMANDÉS"),
                         new docx.Paragraph({
                             children: [
-                                new docx.TextRun({
-                                    text: selectedServices.length > 0 ? selectedServices.map(s => {
-                                        const serviceNames = {
-                                            automation: "🛠️ Automatisation",
-                                            ai: "🤖 Intelligence Artificielle", 
-                                            website: "🌐 Création de Site Web"
-                                        };
-                                        return serviceNames[s];
-                                    }).join(", ") : "Aucun service sélectionné",
-                                    size: 22
-                                })
+                                new docx.TextRun({ text: "Données d'entraînement: ", bold: true }),
+                                new docx.TextRun({ text: data.trainingData || "Non renseigné" })
                             ],
-                            spacing: { after: 300 }
+                            spacing: { after: 200 }
                         }),
+                        new docx.Paragraph({
+                            children: [
+                                new docx.TextRun({ text: "Accès outils internes: ", bold: true }),
+                                new docx.TextRun({ text: data.internalToolsAccess || "Non renseigné" })
+                            ],
+                            spacing: { after: 200 }
+                        }),
+                        new docx.Paragraph({
+                            children: [
+                                new docx.TextRun({ text: "Cas d'usage: ", bold: true }),
+                                new docx.TextRun({ text: data.useCases || "Non renseigné" })
+                            ],
+                            spacing: { after: 200 }
+                        }),
+                        new docx.Paragraph({
+                            children: [
+                                new docx.TextRun({ text: "Droits sur les données: ", bold: true }),
+                                new docx.TextRun({ text: data.dataRights || "Non renseigné" })
+                            ],
+                            spacing: { after: 400 }
+                        })
+                    );
+                }
 
-                        // Service-specific sections
-                        ...generateServiceSections(selectedServices, data),
+                if (selectedServices.includes('website')) {
+                    children.push(
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "🌐 CRÉATION DE SITE WEB - DÉTAILS", bold: true, size: 24 })],
+                            spacing: { before: 600, after: 300 }
+                        }),
+                        new docx.Paragraph({
+                            children: [
+                                new docx.TextRun({ text: "Objectif du site: ", bold: true }),
+                                new docx.TextRun({ text: data.websiteObjective || "Non renseigné" })
+                            ],
+                            spacing: { after: 200 }
+                        }),
+                        new docx.Paragraph({
+                            children: [
+                                new docx.TextRun({ text: "Éléments de branding: ", bold: true }),
+                                new docx.TextRun({ text: data.brandingElements || "Non renseigné" })
+                            ],
+                            spacing: { after: 200 }
+                        }),
+                        new docx.Paragraph({
+                            children: [
+                                new docx.TextRun({ text: "Sites inspirants: ", bold: true }),
+                                new docx.TextRun({ text: data.inspirationSites || "Non renseigné" })
+                            ],
+                            spacing: { after: 200 }
+                        }),
+                        new docx.Paragraph({
+                            children: [
+                                new docx.TextRun({ text: "Fonctionnalités spécifiques: ", bold: true }),
+                                new docx.TextRun({ text: data.specificFeatures || "Non renseigné" })
+                            ],
+                            spacing: { after: 200 }
+                        }),
+                        new docx.Paragraph({
+                            children: [
+                                new docx.TextRun({ text: "Domaine et hébergement: ", bold: true }),
+                                new docx.TextRun({ text: data.domainHosting || "Non renseigné" })
+                            ],
+                            spacing: { after: 200 }
+                        }),
+                        new docx.Paragraph({
+                            children: [
+                                new docx.TextRun({ text: "Produits/Services: ", bold: true }),
+                                new docx.TextRun({ text: data.productsServices || "Non renseigné" })
+                            ],
+                            spacing: { after: 200 }
+                        }),
+                        new docx.Paragraph({
+                            children: [
+                                new docx.TextRun({ text: "Comptes tiers: ", bold: true }),
+                                new docx.TextRun({ text: data.thirdPartyAccounts || "Non renseigné" })
+                            ],
+                            spacing: { after: 400 }
+                        })
+                    );
+                }
 
-                        // Additional information
-                        createSectionHeader("📝 INFORMATIONS SUPPLÉMENTAIRES"),
-                        createInfoParagraph("Budget approximatif", data.budget || "Non renseigné"),
-                        createInfoParagraph("Délai souhaité", data.timeline || "Non renseigné"),
-                        createInfoParagraph("Notes supplémentaires", data.additionalNotes || "Aucune note supplémentaire")
-                    ]
-                }]
-            });
+                // Additional information
+                children.push(
+                    new docx.Paragraph({
+                        children: [
+                            new docx.TextRun({
+                                text: "📝 INFORMATIONS SUPPLÉMENTAIRES",
+                                bold: true,
+                                size: 28
+                            })
+                        ],
+                        spacing: { before: 600, after: 300 }
+                    }),
+                    new docx.Paragraph({
+                        children: [
+                            new docx.TextRun({ text: "Budget approximatif: ", bold: true }),
+                            new docx.TextRun({ text: data.budget || "Non renseigné" })
+                        ],
+                        spacing: { after: 200 }
+                    }),
+                    new docx.Paragraph({
+                        children: [
+                            new docx.TextRun({ text: "Délai souhaité: ", bold: true }),
+                            new docx.TextRun({ text: data.timeline || "Non renseigné" })
+                        ],
+                        spacing: { after: 200 }
+                    }),
+                    new docx.Paragraph({
+                        children: [
+                            new docx.TextRun({ text: "Notes supplémentaires: ", bold: true }),
+                            new docx.TextRun({ text: data.additionalNotes || "Aucune note supplémentaire" })
+                        ],
+                        spacing: { after: 200 }
+                    })
+                );
 
-            // Generate and download the document
-            docx.Packer.toBlob(doc).then(blob => {
-                const clientName = data.clientName || "Client";
-                const fileName = `Brief_${clientName.replace(/[^a-zA-Z0-9]/g, '_')}_${new Date().toISOString().split('T')[0]}.docx`;
-                saveAs(blob, fileName);
-            });
+                // Generate document
+                const doc = new docx.Document({
+                    sections: [{
+                        properties: {},
+                        children: children
+                    }]
+                });
+
+                console.log("Document created, generating blob...");
+
+                // Generate and download the document
+                docx.Packer.toBlob(doc).then(blob => {
+                    console.log("Blob generated:", blob);
+                    const clientName = data.clientName || "Client";
+                    const fileName = `Brief_${clientName.replace(/[^a-zA-Z0-9]/g, '_')}_${new Date().toISOString().split('T')[0]}.docx`;
+                    console.log("Downloading file:", fileName);
+                    saveAs(blob, fileName);
+                    alert("Document généré avec succès !");
+                }).catch(error => {
+                    console.error("Error generating blob:", error);
+                    alert("Erreur lors de la génération du document: " + error.message);
+                });
+
+            } catch (error) {
+                console.error("Error in generateDocument:", error);
+                alert("Erreur lors de la génération du document: " + error.message);
+            }
         }
 
         function createSectionHeader(text) {
