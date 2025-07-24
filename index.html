@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire de Brief Client</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.5.0/docx.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+         
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(-20px, -20px) rotate(180deg); }
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .form-content {
+            padding: 40px 30px;
+        }
+        
+        .service-section {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 5px solid;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            opacity: 0.1;
+            font-size: 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .service-section.automation {
+            border-left-color: #f59e0b;
+        }
+        
+        .service-section.automation::before {
+            content: '🛠️';
+        }
+        
+        .service-section.ai {
+            border-left-color: #8b5cf6;
+        }
+        
+        .service-section.ai::before {
+            content: '🤖';
+        }
+        
+        .service-section.website {
+            border-left-color: #06b6d4;
+        }
+        
+        .service-section.website::before {
+            content: '🌐';
+        }
+        
+        .service-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #374151;
+            font-size: 0.95rem;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+            transform: translateY(-1px);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            transform: scale(1.2);
+        }
+        
+        .generate-btn {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .generate-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .generate-btn:hover::before {
+            left: 100%;
+        }
+        
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.4);
+        }
+        
+        .generate-btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-container {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #e5e7eb;
+        }
+        
+        .required {
+            color: #ef4444;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .form-content {
+                padding: 30px 20px;
+            }
+            
+            .service-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Brief Client</h1>
+            <p>Remplissez ce formulaire pour générer le document de travail</p>
+        </div>
+        
+        <div class="form-content">
+            <form id="clientForm">
+                <!-- Client Info -->
+                <div class="service-section">
+                    <h2 class="section-title">👤 Informations Client</h2>
+                    <div class="form-group">
+                        <label for="clientName">Nom de l'entreprise / Client <span class="required">*</span></label>
+                        <input type="text" id="clientName" name="clientName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactPerson">Personne de contact</label>
+                        <input type="text" id="contactPerson" name="contactPerson">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Téléphone</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                </div>
+
+                <!-- Service Selection -->
+                <div class="service-section">
+                    <h2 class="section-title">🎯 Services Demandés</h2>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="automation" name="services" value="automation">
+                        <label for="automation">🛠️ Automatisation</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="ai" name="services" value="ai">
+                        <label for="ai">🤖 Intelligence Artificielle</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="website" name="services" value="website">
+                        <label for="website">🌐 Création de Site Web</label>
+                    </div>
+                </div>
+
+                <!-- Automation Section -->
+                <div class="service-section automation" id="automationSection" style="display: none;">
+                    <h2 class="section-title">🛠️ AUTOMATISATION</h2>
+                    <div class="form-group">
+                        <label for="manualProcesses">Liste des processus manuels répétitifs à automatiser</label>
+                        <textarea id="manualProcesses" name="manualProcesses" placeholder="Ex: prise de RDV, génération de devis, envoi d'emails..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="existingTools">Outils existants (CRM, Google Sheets, logiciel interne, site web, etc.)</label>
+                        <textarea id="existingTools" name="existingTools" placeholder="Listez tous les outils actuellement utilisés..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="apiAccess">Identifiants/API des plateformes utilisées</label>
+                        <textarea id="apiAccess" name="apiAccess" placeholder="HubSpot, Zoho, Google, etc. (à fournir en privé)"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="dataExamples">Données types / Exemples</label>
+                        <textarea id="dataExamples" name="dataExamples" placeholder="Exemples d'emails, de clients, de commandes..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="automationProblems">Problèmes concrets rencontrés et objectifs souhaités</label>
+                        <textarea id="automationProblems" name="automationProblems" placeholder="Ex: on perd du temps à répondre aux mêmes emails..."></textarea>
+                    </div>
+                </div>
+
+                <!-- AI Section -->
+                <div class="service-section ai" id="aiSection" style="display: none;">
+                    <h2 class="section-title">🤖 INTELLIGENCE ARTIFICIELLE</h2>
+                    <div class="form-group">
+                        <label for="aiObjective">Objectif précis</label>
+                        <textarea id="aiObjective" name="aiObjective" placeholder="Ex: résumé automatique, chatbot RH, détection d'erreurs..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="trainingData">Données d'entraînement disponibles</label>
+                        <textarea id="trainingData" name="trainingData" placeholder="Fichiers PDF, documents internes, base client, logs, images..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="internalToolsAccess">Accès aux outils internes (si intégration nécessaire)</label>
+                        <textarea id="internalToolsAccess" name="internalToolsAccess" placeholder="Notion, CRM, drive partagé..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="useCases">Cas concrets d'usage souhaité</label>
+                        <textarea id="useCases" name="useCases" placeholder="Ex: je veux un assistant qui lit mes contrats PDF..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="dataRights">Droit d'utilisation des données</label>
+                        <textarea id="dataRights" name="dataRights" placeholder="Précisez les droits sur les données, surtout si clients finaux..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Website Section -->
+                <div class="service-section website" id="websiteSection" style="display: none;">
+                    <h2 class="section-title">🌐 CRÉATION DE SITE WEB</h2>
+                    <div class="form-group">
+                        <label for="websiteObjective">Objectif du site</label>
+                        <select id="websiteObjective" name="websiteObjective">
+                            <option value="">Sélectionnez l'objectif principal</option>
+                            <option value="presentation">Site de présentation</option>
+                            <option value="vente">Site de vente</option>
+                            <option value="leads">Génération de leads</option>
+                            <option value="reservation">Site de réservation</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="brandingElements">Logo, charte graphique, contenus textuels</label>
+                        <textarea id="brandingElements" name="brandingElements" placeholder="Décrivez ce que vous avez déjà ou ce qui doit être créé..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="inspirationSites">Exemples de sites inspirants ou concurrentiels</label>
+                        <textarea id="inspirationSites" name="inspirationSites" placeholder="URLs de sites que vous aimez..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="specificFeatures">Fonctionnalités spécifiques souhaitées</label>
+                        <textarea id="specificFeatures" name="specificFeatures" placeholder="Blog, carte interactive, réservation, paiement, chatbot..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="domainHosting">Nom de domaine et hébergement</label>
+                        <textarea id="domainHosting" name="domainHosting" placeholder="Avez-vous déjà un nom de domaine ? Hébergement actuel ?"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="productsServices">Produits ou services à mettre en avant</label>
+                        <textarea id="productsServices" name="productsServices" placeholder="Listez les éléments principaux à présenter..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="thirdPartyAccounts">Comptes tiers à connecter</label>
+                        <textarea id="thirdPartyAccounts" name="thirdPartyAccounts" placeholder="CRM, email, réseaux sociaux..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Additional Notes -->
+                <div class="service-section">
+                    <h2 class="section-title">📝 Notes Supplémentaires</h2>
+                    <div class="form-group">
+                        <label for="budget">Budget approximatif</label>
+                        <input type="text" id="budget" name="budget" placeholder="Budget alloué au projet">
+                    </div>
+                    <div class="form-group">
+                        <label for="timeline">Délai souhaité</label>
+                        <input type="text" id="timeline" name="timeline" placeholder="Quand souhaitez-vous que le projet soit terminé ?">
+                    </div>
+                    <div class="form-group">
+                        <label for="additionalNotes">Notes et commentaires supplémentaires</label>
+                        <textarea id="additionalNotes" name="additionalNotes" placeholder="Toute information supplémentaire utile..."></textarea>
+                    </div>
+                </div>
+
+                <div class="btn-container">
+                    <button type="button" class="generate-btn" onclick="generateDocument()">
+                        📄 Générer le Document DOCX
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Show/hide sections based on service selection
+        const serviceCheckboxes = document.querySelectorAll('input[name="services"]');
+        const sections = {
+            automation: document.getElementById('automationSection'),
+            ai: document.getElementById('aiSection'),
+            website: document.getElementById('websiteSection')
+        };
+
+        serviceCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const sectionId = this.value + 'Section';
+                const section = document.getElementById(sectionId);
+                if (this.checked) {
+                    section.style.display = 'block';
+                    section.style.animation = 'fadeIn 0.5s ease-in';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        });
+
+        function generateDocument() {
+            const formData = new FormData(document.getElementById('clientForm'));
+            const data = {};
+            
+            // Convert FormData to object
+            for (let [key, value] of formData.entries()) {
+                if (data[key]) {
+                    if (Array.isArray(data[key])) {
+                        data[key].push(value);
+                    } else {
+                        data[key] = [data[key], value];
+                    }
+                } else {
+                    data[key] = value;
+                }
+            }
+
+            // Get selected services
+            const selectedServices = [];
+            document.querySelectorAll('input[name="services"]:checked').forEach(checkbox => {
+                selectedServices.push(checkbox.value);
+            });
+
+            // Generate document content
+            const doc = new docx.Document({
+                sections: [{
+                    properties: {},
+                    children: [
+                        new docx.Paragraph({
+                            children: [
+                                new docx.TextRun({
+                                    text: "BRIEF CLIENT - DOCUMENT DE TRAVAIL",
+                                    bold: true,
+                                    size: 32,
+                                    color: "4F46E5"
+                                })
+                            ],
+                            alignment: docx.AlignmentType.CENTER,
+                            spacing: { after: 400 }
+                        }),
+                        
+                        new docx.Paragraph({
+                            children: [
+                                new docx.TextRun({
+                                    text: `Date de création: ${new Date().toLocaleDateString('fr-FR')}`,
+                                    italics: true
+                                })
+                            ],
+                            alignment: docx.AlignmentType.CENTER,
+                            spacing: { after: 600 }
+                        }),
+
+                        // Client Information
+                        createSectionHeader("👤 INFORMATIONS CLIENT"),
+                        createInfoParagraph("Nom de l'entreprise", data.clientName || "Non renseigné"),
+                        createInfoParagraph("Personne de contact", data.contactPerson || "Non renseigné"),
+                        createInfoParagraph("Email", data.email || "Non renseigné"),
+                        createInfoParagraph("Téléphone", data.phone || "Non renseigné"),
+
+                        // Selected Services
+                        createSectionHeader("🎯 SERVICES DEMANDÉS"),
+                        new docx.Paragraph({
+                            children: [
+                                new docx.TextRun({
+                                    text: selectedServices.length > 0 ? selectedServices.map(s => {
+                                        const serviceNames = {
+                                            automation: "🛠️ Automatisation",
+                                            ai: "🤖 Intelligence Artificielle", 
+                                            website: "🌐 Création de Site Web"
+                                        };
+                                        return serviceNames[s];
+                                    }).join(", ") : "Aucun service sélectionné",
+                                    size: 22
+                                })
+                            ],
+                            spacing: { after: 300 }
+                        }),
+
+                        // Service-specific sections
+                        ...generateServiceSections(selectedServices, data),
+
+                        // Additional information
+                        createSectionHeader("📝 INFORMATIONS SUPPLÉMENTAIRES"),
+                        createInfoParagraph("Budget approximatif", data.budget || "Non renseigné"),
+                        createInfoParagraph("Délai souhaité", data.timeline || "Non renseigné"),
+                        createInfoParagraph("Notes supplémentaires", data.additionalNotes || "Aucune note supplémentaire")
+                    ]
+                }]
+            });
+
+            // Generate and download the document
+            docx.Packer.toBlob(doc).then(blob => {
+                const clientName = data.clientName || "Client";
+                const fileName = `Brief_${clientName.replace(/[^a-zA-Z0-9]/g, '_')}_${new Date().toISOString().split('T')[0]}.docx`;
+                saveAs(blob, fileName);
+            });
+        }
+
+        function createSectionHeader(text) {
+            return new docx.Paragraph({
+                children: [
+                    new docx.TextRun({
+                        text: text,
+                        bold: true,
+                        size: 28,
+                        color: "4F46E5"
+                    })
+                ],
+                spacing: { before: 600, after: 300 },
+                border: {
+                    bottom: {
+                        color: "4F46E5",
+                        space: 1,
+                        style: docx.BorderStyle.SINGLE,
+                        size: 6
+                    }
+                }
+            });
+        }
+
+        function createInfoParagraph(label, value) {
+            return new docx.Paragraph({
+                children: [
+                    new docx.TextRun({
+                        text: `${label}: `,
+                        bold: true,
+                        size: 22
+                    }),
+                    new docx.TextRun({
+                        text: value,
+                        size: 22
+                    })
+                ],
+                spacing: { after: 200 }
+            });
+        }
+
+        function generateServiceSections(selectedServices, data) {
+            const sections = [];
+            
+            if (selectedServices.includes('automation')) {
+                sections.push(
+                    createSectionHeader("🛠️ AUTOMATISATION - DÉTAILS"),
+                    createInfoParagraph("Processus manuels à automatiser", data.manualProcesses || "Non renseigné"),
+                    createInfoParagraph("Outils existants", data.existingTools || "Non renseigné"),
+                    createInfoParagraph("Identifiants/API des plateformes", data.apiAccess || "Non renseigné"),
+                    createInfoParagraph("Données types / Exemples", data.dataExamples || "Non renseigné"),
+                    createInfoParagraph("Problèmes et objectifs", data.automationProblems || "Non renseigné")
+                );
+            }
+
+            if (selectedServices.includes('ai')) {
+                sections.push(
+                    createSectionHeader("🤖 INTELLIGENCE ARTIFICIELLE - DÉTAILS"),
+                    createInfoParagraph("Objectif précis", data.aiObjective || "Non renseigné"),
+                    createInfoParagraph("Données d'entraînement", data.trainingData || "Non renseigné"),
+                    createInfoParagraph("Accès aux outils internes", data.internalToolsAccess || "Non renseigné"),
+                    createInfoParagraph("Cas d'usage souhaités", data.useCases || "Non renseigné"),
+                    createInfoParagraph("Droits d'utilisation des données", data.dataRights || "Non renseigné")
+                );
+            }
+
+            if (selectedServices.includes('website')) {
+                sections.push(
+                    createSectionHeader("🌐 CRÉATION DE SITE WEB - DÉTAILS"),
+                    createInfoParagraph("Objectif du site", data.websiteObjective || "Non renseigné"),
+                    createInfoParagraph("Éléments de branding", data.brandingElements || "Non renseigné"),
+                    createInfoParagraph("Sites inspirants", data.inspirationSites || "Non renseigné"),
+                    createInfoParagraph("Fonctionnalités spécifiques", data.specificFeatures || "Non renseigné"),
+                    createInfoParagraph("Domaine et hébergement", data.domainHosting || "Non renseigné"),
+                    createInfoParagraph("Produits/Services à mettre en avant", data.productsServices || "Non renseigné"),
+                    createInfoParagraph("Comptes tiers à connecter", data.thirdPartyAccounts || "Non renseigné")
+                );
+            }
+
+            return sections;
+        }
+
+        // Add some smooth animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.service-section');
+            sections.forEach((section, index) => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>
